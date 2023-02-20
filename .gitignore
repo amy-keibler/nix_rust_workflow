@@ -1,3 +1,5 @@
 /target
 /.envrc
 /.direnv/
+*.png
+*.svg

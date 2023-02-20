@@ -25,6 +25,11 @@
             rustfmt
             rust-analyzer
 
+            # plotters dependencies
+            cmake
+            fontconfig
+            pkg-config
+
             # formatter for flakes
             nixpkgs-fmt
           ];
