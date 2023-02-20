@@ -27,7 +27,27 @@
           nativeBuildInputs = plottersNativeBuildInputs;
         };
 
-        # set the default package to the one we defined
+        # define a docker image package that uses the naersk package
+        packages.nixRustWorkflowDocker = pkgs.dockerTools.buildImage {
+          name = "nix-rust-workflow";
+          tag = "latest";
+
+          # create a cache directory for fontconfig
+          runAsRoot = ''
+            #!${pkgs.runtimeShell}
+            mkdir -p /.cache/fontconfig
+          '';
+
+          config = {
+            Env = [
+              # define an environment variable that fontconfig expects
+              "FONTCONFIG_PATH=${pkgs.fontconfig.out}/etc/fonts"
+            ];
+            Cmd = [ "${packages.nixRustWorkflow}/bin/nix_rust_workflow" ];
+          };
+        };
+
+        # set the default package to the Rust naersk one
         packages.default = packages.nixRustWorkflow;
 
         # define the default development shell environment
